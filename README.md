@@ -1,51 +1,31 @@
-# 열화상 카메라를 이용한 1인 병실 환자 및 고령자<br> 낙상 모니터링 시스템
-
+# 열화상 카메라를 이용한<br/> 1인 병실 환자 및 고령자 낙상 모니터링 시스템
 ## 1. 프로젝트 소개
-
-- 프로젝트 명 : 열화상 카메라를 이용한 1인 병실 환자 및 고령자 낙상 모니터링 시스템
+- 프로젝트명 : 열화상 카메라를 이용한 1인 병실 환자 및 고령자 낙상 모니터링 시스템
 - 프로젝트의 목적
     - 열화상 카메라를 이용해 사용자의 **프라이버시를** 지키며, 침대에서의 **현재 자세를 추론하는 딥러닝 모델**을 구성한다.
     - 실내에서의 **낙상 및 위험 요소를 모니터링** 하는 시스템을 만든다.
     - 저전력, 이동의 용이함, 저비용의 장점을 갖고 있는 **임베디드 보드**에서 시스템을 동작시킨다.
-
 ## 2. 팀 소개
-
 ### Team SafetyNet
-
-김재현, jaeheyk@gmail.com, 임베디드 보드 포팅 및 모델 최적화
-
-권용휘, u_uhh08@naver.com, 데이터셋 제작 및 데이터 평가, 전처리
-
-신해운, shin87361@gmail.com, 딥러닝 모델 설계 및 실시간 비전 처리
-
+김재현, jaeheyk@gmail.com, 임베디드 보드 포팅 및 모델 최적화  
+권용휘, u_uhh08@naver.com, 데이터셋 제작 및 데이터 평가, 전처리  
+신해운, shin87361@gmail.com, 딥러닝 모델 설계 및 실시간 비전 처리  
 ## 3. 시스템 구성도
-
-![Untitled](assets/flowchart.png)
-
-이 과제는 3단계 시스템으로 구성되어 있습니다.
-
-1. ESPCN 
+![Untitled](assets/flowchart.png)  
+이 과제는 3단계 시스템으로 구성되어 있습니다.  
+1. ESPCN - [GitHub - leftthomas/ESPCN: A PyTorch implementation of ESPCN](https://github.com/leftthomas/ESPCN)
     
-    Link : [GitHub - leftthomas/ESPCN: A PyTorch implementation of ESPCN](https://github.com/leftthomas/ESPCN)
+    입력으로 주어지는 열화상 이미지의 해상도는 120x160입니다. 이 해상도에서 모델의 인식률을 높이기 위해 x4 upscale 모델을 사용하여 해상도를 480x640으로 만듭니다.  
+    ESPCN 모델을 사용하면 속도와 인식률 모두 뛰어난 성능을 확인할 수 있습니다.  
+2. Alphapose - [GitHub - MVIG-SJTU/AlphaPose: Real-Time and Accurate Full-Body Multi-Person Pose Estimation](https://github.com/MVIG-SJTU/AlphaPose)
     
-    입력으로 주어지는 열화상 이미지의 해상도는 120x160입니다. 이 해상도에서 모델의 인식률을 높이기 위해 x4 upscale 모델을 사용하여 해상도를 480x640으로 만듭니다.
-    
-    ESPCN 모델을 사용하면 속도와 인식률 모두 뛰어난 성능을 확인할 수 있습니다.
-    
-2. Alphapose
-    
-    Link : [GitHub - MVIG-SJTU/AlphaPose: Real-Time and Accurate Full-Body Multi-Person Pose Estimation](https://github.com/MVIG-SJTU/AlphaPose)
-    
-    열화상 이미지에서 사람을 인식하고 스켈레톤 데이터를 추출하는 Top-Down 기반 딥러닝 모델입니다.
-    
+    열화상 이미지에서 사람을 인식하고 스켈레톤 데이터를 추출하는 Top-Down 기반 딥러닝 모델입니다.  
     사람의 위치를 감지하기 위해서 [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX) Object-Detection 모델을 사용하며, 스켈레톤의 키포인트 데이터를 추출하기 위해 [HRNet](https://arxiv.org/abs/1908.07919) backbone을 사용합니다.
     
 3. Fall Detection Model
     
-    낙상 및 여러 자세를 인식하기 위한 데이터 분류 모델입니다. FCNNs(Fully-Connected Neural Networks) 기반으로 만들었습니다.
-    
+    낙상 및 여러 자세를 인식하기 위한 데이터 분류 모델입니다. FCNNs(Fully-Connected Neural Networks) 기반으로 만들었습니다.  
     사전 학습된 모델로 top-view(위에서 내려다 본 자세), side-view(대상을 비스듬히 내려다 본 자세)의 모델을 제공합니다.
-    
 
 마지막 분류 모델에서 나온 label 중 확률이 가장 높은 자세를 추론 결과로 선정합니다. 추론 결과는 정확성을 높이기 위하여 버퍼 큐를 사용하여 최근 n개 (설정 가능) 중 가장 많은 자세를 결과로 반환합니다.
 
@@ -70,8 +50,7 @@
 ### 프로젝트 소개 동영상
 
 ### 프로젝트 시연 동영상
-
-[https://www.youtube.com/watch?v=ln7Ti9a9RgI](https://www.youtube.com/watch?v=ln7Ti9a9RgI)
+[![Youtube Video](https://img.youtube.com/vi/ln7Ti9a9RgI/maxres1.jpg)](https://www.youtube.com/watch?v=ln7Ti9a9RgI)
 
 ## 5. 사용법
 
@@ -93,9 +72,14 @@
     - yolov5_detector 폴더와 연계되며, YOLOv5 모델을 사용하여 바운딩 박스로 낙상 감지를 시도하는 실시간 처리 코드입니다.
     - 자세한 내용은 docs의 중간보고서 및 최종보고서를 참조해주세요.
 
-다음과 같은 장비가 필요합니다.
+**아래의 장비가 필요합니다.**
 
-- ThermoCam160B
+- ThermoCam160B  
+리눅스 환경 하에서는 아래와 같이 uvcvideo 드라이버를 동적 로딩해야 합니다.  
+    ```bash
+    sudo rmmod uvcvideo
+    sudo modprobe uvcvideo nodrop=1 timeout=5000
+    ```
 
 ### AlphaPose 설치
 
@@ -152,32 +136,81 @@ cd AlphaPose/
 python3 setup.py build develop --user
 ```
 
-### 임베디드 보드에 설치
+### Nvidia Jetson AGX Xavier Developer Kit (16GB) 임베디드 보드에 설치  
+1. Jetpack 5.0.2 설치([Nvidia SDK Manager](https://developer.nvidia.com/nvidia-sdk-manager) 이용)
+2. Pytorch, torchvision, Tensorflow 설치  
+    ```bash
+    # Install prerequistes and dependencies
+    sudo apt-get update
+    sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran libjpeg-dev libavcodec-dev libavformat-dev libswscale-dev
 
-- Nvidia Jetson AGX Xavier Developer Kit (16GB)에서 실행이 확인되었습니다.
-- 
+    # Install pytorch first 
+    git clone https://github.com/pytorch/vision torchvision
+    $ cd torchvision
+    $ export BUILD_VERSION=0.x.0  # where 0.x.0 is the torchvision version  
+    $ python3 setup.py install --user
+    $ cd ../  # attempting to load torchvision from build dir will result in import error
+    $ pip install 'pillow<7' # always needed for Python 2.7, not needed torchvision v0.5.0+ with Python 3.6
+    sudo pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v50 tensorflow
+    ```
+3. OpenCV (with CUDA support)
+
+    1. 기존 opencv 관련 파일을 모두 삭제
+        ```bash
+        sudo apt purge "*opencv*"
+        sudo find / -name "*opencv*" -exec rm -i {} \;
+        ```
+    2. OpenCV와 contrib 모듈 소스를 모두 다운로드 받은 후 다음 cmake 명령어를 통해 makefile 생성.
+        ```bash
+        cmake -D CMAKE_BUILD_TYPE=RELEASE \
+        -D CMAKE_INSTALL_PREFIX=/usr \
+        -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+        -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 \
+        -D WITH_OPENCL=OFF \
+        -D WITH_CUDA=ON \
+        -D CUDA_ARCH_BIN=7.2 \
+        -D CUDA_ARCH_PTX="" \
+        -D WITH_CUDNN=ON \
+        -D WITH_CUBLAS=ON \
+        -D ENABLE_FAST_MATH=ON \
+        -D CUDA_FAST_MATH=ON \
+        -D OPENCV_DNN_CUDA=ON \
+        -D ENABLE_NEON=ON \
+        -D WITH_QT=OFF \
+        -D WITH_OPENMP=ON \
+        -D BUILD_TIFF=ON \
+        -D WITH_FFMPEG=ON \
+        -D WITH_GSTREAMER=ON \
+        -D WITH_TBB=ON \
+        -D BUILD_TBB=ON \
+        -D BUILD_TESTS=OFF \
+        -D WITH_EIGEN=ON \
+        -D WITH_V4L=ON \
+        -D WITH_LIBV4L=ON \
+        -D OPENCV_ENABLE_NONFREE=ON \
+        -D INSTALL_C_EXAMPLES=OFF \
+        -D INSTALL_PYTHON_EXAMPLES=OFF \
+        -D BUILD_opencv_python3=TRUE \
+        -D OPENCV_GENERATE_PKGCONFIG=ON \
+        -D BUILD_EXAMPLES=OFF ..
+        ```
+    3. 생성된 makefile을 통해 컴파일
 
 ### Models
-
-- 사전 학습된 YOLOX 모델 넣기
-    - [YOLOX-X model](https://drive.google.com/file/d/1F8HCZSnTdb0t_GkHxNYQ8CvIvL3HOT9d/view?usp=sharing)
-    - [YOLOX-tiny model](https://drive.google.com/file/d/1MfrAEVnch-kIKqH7t-c3fuEmx2T8MT2H/view?usp=sharing)
+- **사전 학습된 YOLOX 모델 넣기**  
+    Download : [YOLOX-X model](https://drive.google.com/file/d/1F8HCZSnTdb0t_GkHxNYQ8CvIvL3HOT9d/view?usp=sharing) || [YOLOX-tiny model](https://drive.google.com/file/d/1MfrAEVnch-kIKqH7t-c3fuEmx2T8MT2H/view?usp=sharing)
     1. AlphaPose/yolox/ 폴더에 data 폴더를 생성합니다.
     2. 위 링크에서 모델을 다운받아 data 폴더에 넣습니다.
-- HRNet 모델 넣기
-    
-    [hrnet_w32_256x192.pth](https://drive.google.com/file/d/1i63BPlOnp2vSjIZ7ni4Yp3RCPQwqe922/view?usp=drive_open)
-    
+- **HRNet 모델 넣기**  
+    [hrnet_w32_256x192.pth](https://drive.google.com/file/d/1i63BPlOnp2vSjIZ7ni4Yp3RCPQwqe922/view?usp=drive_open)  
     위 모델을 다운받아 AlphaPose/pretrained_models에 넣습니다.
-    
-- Fall Detection Model
-
-|  | pkl file | Model |
-| --- | --- | --- |
-| side-view | download | download |
-| top-view | download | download |
-
-위 파일들을 다운 받아, AlphaPose/pretrained_models에 넣습니다.
+- **Fall Detection Model**
+  |  | pkl file | Model |
+  | --- | --- | --- |
+  | side-view | [download](https://drive.google.com/file/d/1UVhKj6sNPaAa7tgEmyKbVdPAHqMdRXKD/view?usp=sharing) | [download](https://drive.google.com/file/d/1_M9ovk9lQPk2YVj8qpq3Ebv94qb9XGQA/view?usp=sharing) |
+  | top-view | [download](https://drive.google.com/file/d/1brB-kxT_2lOOcK8QvgoFhYHbHNS5H-Sd/view?usp=sharing) | [download](https://drive.google.com/file/d/12a3_t89JTEI5Pz2RgOPPeY0Nppe_s8mz/view?usp=sharing) |  
+  
+  위 파일들을 다운 받아, AlphaPose/pretrained_models에 넣습니다.
 
 ### 실행 방법
 
