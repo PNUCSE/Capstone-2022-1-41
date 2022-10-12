@@ -17,7 +17,7 @@ class WebCamDetectionLoader():
         self.opt = opt
 
         input_source = "/dev/video0"
-        stream = cv2.VideoCapture(input_source)
+        stream = cv2.VideoCapture(input_source, cv2.CAP_V4L2)
         assert stream.isOpened(), 'Cannot capture source'
         self.path = input_source
         # self.fourcc = int(stream.get(cv2.CAP_PROP_FOURCC))
@@ -96,7 +96,7 @@ class WebCamDetectionLoader():
             return queue.get()
 
     def frame_preprocess(self):
-        stream = cv2.VideoCapture(self.path)
+        stream = cv2.VideoCapture(self.path, cv2.CAP_V4L2)
 
         import os
         model_path = os.path.join('pretrained_models/ESPCN_x4.pb')
