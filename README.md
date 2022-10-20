@@ -48,6 +48,7 @@
 저희는 이러한 배경을 바탕으로 **임베디드 시스템**을 사용한 **1인 병실과 고령자 1인 가구를 위한 낙상 모니터링 시스템**을 만들어, 낙상 위험성을 평가하고 빠르게 신고까지 연계될 수 있는 해결책을 제시하고자 합니다.
 
 ### 프로젝트 소개 동영상
+[![Youtube Video](https://img.youtube.com/vi/IuvuzOSrHLM/maxres1.jpg)](https://www.youtube.com/watch?v=IuvuzOSrHLM)
 
 ### 프로젝트 시연 동영상
 [![Youtube Video](https://img.youtube.com/vi/ln7Ti9a9RgI/maxres1.jpg)](https://www.youtube.com/watch?v=ln7Ti9a9RgI)
